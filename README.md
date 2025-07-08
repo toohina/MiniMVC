@@ -1,4 +1,5 @@
 javac -cp "C:\Program Files\Apache Software Foundation\Tomcat 11.0\lib\servlet-api.jar" -d WEB-INF\classes src\model\User.java src\controller\HelloServlet.java
+
 💡 What it's doing (broken down):
 Part	Meaning
 javac	Java Compiler — compiles .java files into .class bytecode
