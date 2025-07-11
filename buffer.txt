@@ -1,27 +1,19 @@
 javac -cp "C:\Program Files\Apache Software Foundation\Tomcat 11.0\lib\servlet-api.jar" -d WEB-INF\classes src\model\User.java src\controller\HelloServlet.java
 🧠 Here's the command:
-bash
-Copy
-Edit
 javac -cp "C:\Program Files\Apache Software Foundation\Tomcat 11.0\lib\servlet-api.jar" -d WEB-INF\classes src\model\User.java src\controller\HelloServlet.java
 💡 What it's doing (broken down):
-Part	Meaning
-javac	Java Compiler — compiles .java files into .class bytecode
--cp "..."	-cp stands for classpath. You’re telling javac where to find external classes used in your code. Here, you're including servlet-api.jar which has HttpServlet, HttpServletRequest, etc.
-"C:\Program Files\Apache Software Foundation\Tomcat 11.0\lib\servlet-api.jar"	This is the path to the servlet library provided by Tomcat. Without this, you’ll get cannot find symbol: HttpServlet errors.
--d WEB-INF\classes	This tells javac: “Put the compiled .class files here.” So the output will be placed in WEB-INF\classes\model\ and controller\.
-src\model\User.java src\controller\HelloServlet.java	These are the source files you're compiling. Your actual code.
+Part:	Meaning
+1) javac:	Java Compiler — compiles .java files into .class bytecode
+2) -cp "...":	-cp stands for classpath. You’re telling javac where to find external classes used in your code. Here, you're including servlet-api.jar which has HttpServlet, HttpServletRequest, etc.
+3) "C:\Program Files\Apache Software Foundation\Tomcat 11.0\lib\servlet-api.jar":	This is the path to the servlet library provided by Tomcat. Without this, you’ll get cannot find symbol: HttpServlet errors.
+4) -d WEB-INF\classes:	This tells javac: “Put the compiled .class files here.” So the output will be placed in WEB-INF\classes\model\ and controller\.
+5) src\model\User.java src\controller\HelloServlet.java:	These are the source files you're compiling. Your actual code.
 
 ✅ So what happens when you run this?
 It compiles both your Java files
-
 It uses the Servlet API from Tomcat to understand HttpServlet classes
 
 It outputs:
-
-pgsql
-Copy
-Edit
 WEB-INF\classes\model\User.class
 WEB-INF\classes\controller\HelloServlet.class
 This is the required structure for Tomcat to run your web app properly.
@@ -29,14 +21,11 @@ This is the required structure for Tomcat to run your web app properly.
 ---------------------------------------------------------------------------------------------------
 ❌ What’s the error?
 Your compiler is shouting:
-
 cannot find symbol: HttpServlet, ServletException, HttpServletRequest, etc.
 
 This means it cannot find the servlet classes — and the root cause is:
-
 🚨 You're using javax.servlet.*, but compiling against Tomcat 11, which uses jakarta.servlet.*.
 Starting from Tomcat 10+, the entire Servlet API moved from:
-
 Old package	➡️	New package
 javax.servlet.*	➡️	jakarta.servlet.*
 javax.servlet.http.*	➡️	jakarta.servlet.http.*
@@ -44,18 +33,10 @@ javax.servlet.annotation.*	➡️	jakarta.servlet.annotation.*
 
 ✅ ✅ ✅ FIX: Update Your Imports to jakarta.*
 Change the top of your HelloServlet.java from this:
-
-java
-Copy
-Edit
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 To this:
-
-java
-Copy
-Edit
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
